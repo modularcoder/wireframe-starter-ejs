@@ -1,0 +1,28 @@
+<% include partials/header %>
+
+	<div class="container main-container home-container">
+
+		<h1>Header and footer are included by </h1>
+
+		<pre>
+			include partials/header
+		</pre>
+
+
+		<h1>For loop demonstration</h1>
+
+		<% 
+			var users = ['user1', 'user2', 'user3'];
+		%>
+
+		<ul>
+		  	<% users.forEach(function(user){ %>
+		    	<li>
+		    		<%= user %>
+		    	</li>
+		  	<% }) %>
+		</ul>
+
+	</div>
+
+<% include partials/footer %>

@@ -1,0 +1,194 @@
+/*****************MIXINS*******************************/
+
+.box-shadow(@arguments) {
+  -webkit-box-shadow: @arguments;
+  -moz-box-shadow: @arguments;
+  box-shadow: @arguments;
+}
+
+.drop-shadow(@arguments) {
+  -moz-box-shadow: @arguments;
+      -webkit-filter: drop-shadow(@arguments);
+      filter: drop-shadow(@arguments);
+
+      /*-moz-box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+      -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.3));
+      filter: drop-shadow(0 1px 4px rgba(0,0,0,0.3));*/
+}
+
+.rounded(@radius: 5px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+
+.border-radius(@topleft: 0, @topright: 0, @bottomright: 0, @bottomleft: 0) {
+  -webkit-border-top-right-radius: @topright;
+  -webkit-border-bottom-right-radius: @bottomright;
+  -webkit-border-bottom-left-radius: @bottomleft;
+  -webkit-border-top-left-radius: @topleft;
+  -moz-border-radius-topright: @topright;
+  -moz-border-radius-bottomright: @bottomright;
+  -moz-border-radius-bottomleft: @bottomleft;
+  -moz-border-radius-topleft: @topleft;
+  border-top-right-radius: @topright;
+  border-bottom-right-radius: @bottomright;
+  border-bottom-left-radius: @bottomleft;
+  border-top-left-radius: @topleft;
+  // .background-clip(padding-box);
+
+  -moz-background-clip:    padding; 
+  -webkit-background-clip: padding-box; 
+  background-clip:         padding-box;
+}
+
+.gradient (@startColor: #eee, @endColor: white) {
+  background-color: @startColor;
+  background: -webkit-gradient(linear, left top, left bottom, from(@startColor), to(@endColor));
+  background: -webkit-linear-gradient(top, @startColor, @endColor);
+  background: -moz-linear-gradient(top, @startColor, @endColor);
+  background: -ms-linear-gradient(top, @startColor, @endColor);
+  background: -o-linear-gradient(top, @startColor, @endColor);
+}
+
+.transition-duration(@duration: 0.2s) {
+  -moz-transition-duration: @duration;
+  -webkit-transition-duration: @duration;
+  -o-transition-duration: @duration;
+  transition-duration: @duration;
+}
+
+.transform(...) {
+  -webkit-transform: @arguments;
+  -moz-transform: @arguments;
+  -o-transform: @arguments;
+  -ms-transform: @arguments;
+  transform: @arguments;
+}
+
+.rotate(@deg:5deg){
+  .transform(rotate(@deg));
+}
+
+.transition(@duration:0.2s, @ease:ease-out) {
+  -webkit-transition: all @duration @ease;
+  -moz-transition: all @duration @ease;
+  -o-transition: all @duration @ease;
+  transition: all @duration @ease;
+}
+
+.transition2(@arguments: all 0.2s ease-out) {
+  -webkit-transition: @arguments;
+  -moz-transition: @arguments;
+  -o-transition: @arguments;
+  transition: @arguments;
+}
+
+.greyscale(@percent: 100%) {
+  -webkit-filter: grayscale(@percent);
+  -moz-filter: grayscale(@percent);
+  filter: grayscale(@percent);
+}
+
+
+/* LESS Mixin for CSS arrow
+ *
+ * Usage:
+ * .arrow(size, color, direction, offset, border-size(optional), border-color(optional));
+ *
+ * 1. size: you can set pretty much whatever you want. Further tests required for em unit.
+ * 2. color: sadly, no way to inherit. Use the same color as the background of your element.
+ * 3. direction: the direction of the arrow (top, right, bottom, left).
+ * 4. offset: the position on the side (20px, 50%, etc.).
+ * 5. border-size (optional): you may have to set it 1px thinner than the actual border to smooth the rendering.
+ * 6. border-color (optional): "inherit" as a default value.
+ *
+ * 
+ * Still many things to do and edge cases to fix.
+ * It uses the :after pseudo-element to create the arrow. If there is a border, it uses the :before pseudo-element
+ *
+ * Changelog:
+ * - now handles border
+ * - "inherit" now supported as a @border-color value
+ * - "inherit" now supported as a @color value as long as there is no border involved
+ * - dramatically simplified the position
+ * - drop-shadow enabled
+ * - GitHub repo: https://github.com/HugoGiraudel/LESS-Mixin-for-CSS-arrows
+ */
+
+.arrow(
+  @size, 
+  @color, 
+  @direction, 
+  @offset,
+  @border-size: 0, 
+  @border-color: inherit) 
+{
+  /*position: relative;*/
+  &:after, 
+  &:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+  }
+}
+
+.arrow(
+    @size, 
+    @color, 
+    @direction, 
+    @offset, 
+    @border-size: 0, 
+    @border-color: inherit
+) when (@direction = top) {
+
+  &:after {
+    bottom: 100%;
+    left: @offset;
+    margin-left: -@size;
+
+    border-left: @size solid transparent;
+    border-right: @size solid transparent;
+    border-bottom: @size solid @color;
+  }
+}
+
+.arrow(@size, @color, @direction, @offset, @border-size: 0, @border-color: inherit) when (@direction = bottom) {
+
+  &:after {
+    top: 100%;
+    left: @offset;
+    margin-left: -@size;
+
+    border-left: @size solid transparent;
+    border-right: @size solid transparent;
+    border-top: @size solid @color;
+  }
+}
+
+.arrow(@size, @color, @direction, @offset, @border-size: 0, @border-color: inherit) when (@direction = right) {
+
+  &:after {
+    left: 100%;
+    top: @offset;
+    margin-top: -@size;
+
+    border-top: @size solid transparent;
+    border-bottom: @size solid transparent;
+    border-left: @size solid @color;
+  }
+}
+
+.arrow(@size, @color, @direction, @offset, @border-size: 0, @border-color: inherit) when (@direction = left) {
+
+  &:after {
+    right: 100%;
+    top: @offset;
+    margin-top: -@size;
+
+    border-top: @size solid transparent;
+    border-bottom: @size solid transparent;
+    border-right: @size solid @color;
+  } 
+}
